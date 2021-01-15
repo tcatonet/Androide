@@ -3,6 +3,7 @@ package projet
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import com.example.androidproject.R
 import com.google.gson.Gson
@@ -14,6 +15,9 @@ import kotlinx.android.synthetic.main.activity_modif_item.*
 import kotlinx.android.synthetic.main.activity_view_item.*
 
 class ModifItemActivity : AppCompatActivity() {
+
+    internal var dbHelper = DataBaseHelper(this)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_modif_item)
@@ -23,26 +27,24 @@ class ModifItemActivity : AppCompatActivity() {
         val nameOrigin = getIntent().getStringExtra("name")
         val decriptionOrigin = getIntent().getStringExtra("description")
 
-
+        //Click sur le bouton retour
         back?.setOnClickListener {
             val intent = Intent(this, ViewItemActivity::class.java)
             intent.putExtra("name", nameOrigin)
-            //Toast.makeText(this, nameOrigin , Toast.LENGTH_SHORT).show()
-
             intent.putExtra("description",decriptionOrigin)
             startActivity(intent)
         }
 
+        //Click sur le bouton valider
         validate?.setOnClickListener {
             val intent = Intent(this, ViewItemActivity::class.java)
 
             var name = modifName.text.toString()
             var description = modifDescription.text.toString()
 
-            val gson_change = Gson()
-            val sharedPreference =getSharedPreferences("projet", MODE_PRIVATE)
-            val json :String? = sharedPreference.getString("myList_items",null)
-            val list_items = gson_change.fromJson(json,  object : TypeToken<MutableList<InfoItem>>() {}.type) as MutableList<InfoItem>
+
+
+            val list_items = dbHelper.getAllItem()
             var isUnique = true
 
             // Teste si le nom saisie à la modifiction de l'item est unique
@@ -53,15 +55,12 @@ class ModifItemActivity : AppCompatActivity() {
                     }
                 }
             }
-
             if(isUnique) {
-                for (item in list_items) {
-                    if (item.name == nameOrigin) {
-                        item.name = name
-                        item.description = description
 
-                        val sharedPreference = getSharedPreferences("projet", MODE_PRIVATE)
-                        sharedPreference.edit().putString("myList_items", gson_change.toJson(list_items)).apply()
+                for (item in list_items) {
+
+                    if (item.name == nameOrigin) {
+                        dbHelper.updateData(nameOrigin, name, description)
                         break
                     }
                 }
@@ -73,11 +72,7 @@ class ModifItemActivity : AppCompatActivity() {
             }else{
                 Toast.makeText(this, "Le nom doit être unique" , Toast.LENGTH_SHORT).show()
             }
-
-
-
         }
-
     }
 
 

@@ -17,31 +17,16 @@ import org.jetbrains.anko.uiThread
 import java.net.URL
 
 class ListeItemsActivity : AppCompatActivity(), OnItemClickListener  {
-//v1.000
+
     private var list_items = mutableListOf(
         InfoItem("none", "none"),
     )
     internal var dbHelper = DataBaseHelper(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        //On charge la liste d'item sur la vue
-        val sharedPreference =getSharedPreferences("projet", MODE_PRIVATE)
-        val gson_charge = Gson()
-        var resData = dbHelper.allData
 
-        val memoryListjson:String? = sharedPreference.getString("myList_items",null)
-
-        if(resData.count==0){
-            Log.d("error", "NULL")
-            this.list_items = ArrayList()
-        }else{
-            Log.d("error", "Pas NULL")
-            this.list_items = gson_charge.fromJson(memoryListjson,  object : TypeToken<MutableList<InfoItem>>() {}.type)
-            //for (item in resData) {
-             //   this.list_items.add( InfoItem(item.name,item.description))
-            //}
-        }
-
+        //On charge la liste d'item à partie de la BD
+        this.list_items = dbHelper.getAllItem()
 
         //Création de la vue
         super.onCreate(savedInstanceState)
@@ -51,21 +36,7 @@ class ListeItemsActivity : AppCompatActivity(), OnItemClickListener  {
         recyclerView.adapter = ItemAdapter(list_items, this)
 
 
-        //On ajoute un nouvelle item à la liste
-        val gson_save = Gson()
-        var yourObject: InfoItem? = gson_save.fromJson<InfoItem>(intent.getStringExtra("identifier"), InfoItem::class.java)
 
-        if (yourObject != null) {
-
-            //Empeche l'ajout d'un item à chaque rotation d'écran
-            val destroy :String? = null
-            intent.putExtra("identifier", destroy)
-
-            this.list_items.add(yourObject)
-            val gson = Gson()
-            sharedPreference.edit().putString("myList_items",gson.toJson(list_items)).apply()
-            yourObject=null
-        }
 
         //On click sur le bouton addItem
         addItem?.setOnClickListener {
@@ -75,8 +46,11 @@ class ListeItemsActivity : AppCompatActivity(), OnItemClickListener  {
         }
     }
 
+    //On click sur un item de la liste
     override fun onItemClick(item: InfoItem, position: Int) {
         val intent = Intent(this, ViewItemActivity::class.java)
+
+        //On envoit les infos de l'item à ViewItemActivity
         intent.putExtra("name", item.name)
         intent.putExtra("description", item.description)
         startActivity(intent)

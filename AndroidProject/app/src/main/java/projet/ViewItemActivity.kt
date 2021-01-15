@@ -15,24 +15,28 @@ import kotlinx.android.synthetic.main.activity_modif_item.*
 import kotlinx.android.synthetic.main.activity_view_item.*
 
 class ViewItemActivity : AppCompatActivity() {
+
+    internal var dbHelper = DataBaseHelper(this)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_view_item)
 
 
         //On récupère les valeur des champ name et description
-        val name: TextView = findViewById(R.id.name) as TextView
-        val description: TextView = findViewById(R.id.description) as TextView
+        val name: TextView = findViewById<TextView>(R.id.name)
+        val description: TextView = findViewById<TextView>(R.id.description)
 
         name.text = getIntent().getStringExtra("name")
         description.text = getIntent().getStringExtra("description")
 
-
+        //Click sur le bouton retour
         back?.setOnClickListener {
             val intent = Intent(this, ListeItemsActivity::class.java)
             startActivity(intent)
         }
 
+        //Click sur le bouton éditer
         edit?.setOnClickListener {
             val intent = Intent(this, ModifItemActivity::class.java)
             intent.putExtra("name", name.text)
@@ -41,36 +45,20 @@ class ViewItemActivity : AppCompatActivity() {
         }
 
 
-
+        //Click sur le bouton supprimer
         delete?.setOnClickListener {
             val intent = Intent(this, ListeItemsActivity::class.java)
             var name = name.text.toString()
-            val gson_charge = Gson()
-            val sharedPreference =getSharedPreferences("projet", MODE_PRIVATE)
-            val json : String? = sharedPreference.getString("myList_items",null)
+            val list_items = dbHelper.getAllItem()
 
-            if (json != null) {
-                Log.d("delete",json)
-            }else {
-                Log.d("delete","null")
-
-            }
-
-            val list_items = gson_charge.fromJson(json,  object : TypeToken<MutableList<InfoItem>>() {}.type) as MutableList<InfoItem>
-
-            // Teste si le nom saisie à la création de l'item est unique
+            //On parcours tous les items pour trouver celui à supprimer
             for (item in list_items){
                 if(item.name == name){
-
-                    list_items.remove(item)
-
-                    sharedPreference.edit().putString("myList_items",gson_charge.toJson(list_items)).apply()
+                    dbHelper.deleteOneItem(name)
                     startActivity(intent)
                     break
                 }
             }
-
-            //startActivity(intent)
 
         }
 

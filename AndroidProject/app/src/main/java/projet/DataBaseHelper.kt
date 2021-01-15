@@ -22,6 +22,7 @@ class DataBaseHelper (context: Context) : SQLiteOpenHelper(context,DATABASE_NAME
 
     }
 
+    //Ajoute un nouvel item dans la base de données
     fun insertData(nameVal:String, descriptionVal: String){
         val db = this.writableDatabase
         val contentValue = ContentValues()
@@ -30,55 +31,34 @@ class DataBaseHelper (context: Context) : SQLiteOpenHelper(context,DATABASE_NAME
         db.insert(TABLE_NAME,null,contentValue)
     }
 
-    fun updateData(id: String, nameVal:String, descriptionVal: String){
-            val db = this.writableDatabase
-            val contentValue = ContentValues()
-            contentValue.put(COL_ID, id)
-            contentValue.put(COL_NAME, nameVal)
-            contentValue.put(COL_DESCRIPTION, descriptionVal)
-            db.update(COL_ID, contentValue,"ID = ?", arrayOf(id) )
-    }
-
-    fun deleteData(id: String){
+    //Met a jour un item en fonction de son ancien nom, de son nouveau nom et de sa description
+    fun updateData(lastName:String,newName:String, descriptionVal: String){
         val db = this.writableDatabase
-        db.delete(TABLE_NAME,"ID = ?", arrayOf(id))
+        val contentValue = ContentValues()
+        contentValue.put(COL_NAME, newName)
+        contentValue.put(COL_DESCRIPTION, descriptionVal)
+        db.update(TABLE_NAME, contentValue,"NAME = ?", arrayOf(lastName))
     }
 
-    fun getOneItem(id: Int): InfoItem {
-        val db = this.writableDatabase
-        val res = db.rawQuery("SELECT name,description FROM $TABLE_NAME WHERE id = $id"  , null )
-
-        res.moveToFirst()
-        if(!res.isAfterLast) {
-            var name = res.getString(res.getColumnIndex("NAME"))
-            var description= res.getString(res.getColumnIndex("DESCRIPTION"))
-            return InfoItem(name,description)
-        }
-        return InfoItem("none","none")
-    }
-
-
+    // Suprime un item dont le nom est passé en paramètre
     fun deleteOneItem(name: String) {
         val db = this.writableDatabase
         db.delete(TABLE_NAME,"NAME = ?", arrayOf(name))
     }
 
+    //Retourne une MutableList des item en BD
     fun getAllItem(): MutableList<InfoItem> {
         val db = this.writableDatabase
         val res = db.rawQuery("SELECT name,description FROM $TABLE_NAME "  , null )
-
         val itemList: MutableList<InfoItem> = mutableListOf()
+
         res.moveToFirst()
-
         while(!res.isAfterLast) {
-            Log.d("error", "getAllItem")
-
             var name = res.getString(res.getColumnIndex("NAME"))
             var description= res.getString(res.getColumnIndex("DESCRIPTION"))
 
             itemList.add(InfoItem(name,description))
             res.moveToNext()
-
         }
         return itemList
     }
