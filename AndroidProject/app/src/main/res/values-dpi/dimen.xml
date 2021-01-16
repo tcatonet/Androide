@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="sizeButton_bp_height">60dp</dimen>
+    <dimen name="sizeButton_bp_width">140dp</dimen>
+    <dimen name="sizeButton_delete_width">180dp</dimen>
+
+    <dimen name="Horizontalbias1Button">0.2</dimen>
+    <dimen name="Horizontalbias2Button">0.8</dimen>
+
+    <dimen name="VerticalebiasName">0.05</dimen>
+    <dimen name="VerticalebiasDescription">0.15</dimen>
+
+    <dimen name="inputTxt">5dp</dimen>
+</resources>
