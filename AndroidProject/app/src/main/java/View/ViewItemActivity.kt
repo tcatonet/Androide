@@ -8,10 +8,9 @@ import com.example.androidproject.R
 import kotlinx.android.synthetic.main.activity_edit_item.back
 import kotlinx.android.synthetic.main.activity_view_item.*
 import Modele.DataBaseHelper
-import android.content.Context
 import android.location.LocationManager
 import android.widget.Toast
-import kotlinx.android.synthetic.main.activity_liste_items.*
+import androidx.appcompat.app.AlertDialog
 
 class ViewItemActivity : AppCompatActivity() {
 
@@ -46,23 +45,38 @@ class ViewItemActivity : AppCompatActivity() {
 
         //Click sur le bouton supprimer
         delete?.setOnClickListener {
-            val intent = Intent(this, ListeItemsActivity::class.java)
-            var name = name.text.toString()
-            val list_items = dbHelper.getAllItem()
 
-            //On parcours tous les items pour trouver celui à supprimer
-            for (item in list_items){
-                if(item.name == name){
-                    dbHelper.deleteOneItem(name)
-                    startActivity(intent)
-                    break
+
+            val builder = AlertDialog.Builder(this)
+            builder.setTitle("Supression")
+            builder.setMessage("Voulez-vous vraiment supprimer l'item " + name.text)
+
+            builder.setPositiveButton("Oui"){dialogInterface, which ->
+                val intent = Intent(this, ListeItemsActivity::class.java)
+                var name = name.text.toString()
+                val list_items = dbHelper.getAllItem()
+
+                //On parcours tous les items pour trouver celui à supprimer
+                for (item in list_items){
+                    if(item.name == name){
+                        dbHelper.deleteOneItem(name)
+                        startActivity(intent)
+                        break
+                    }
                 }
             }
 
+            builder.setNegativeButton("Non"){dialogInterface, which ->
+
+            }
+
+            builder.show()
+
         }
 
+
         mapButton?.setOnClickListener {
-            val manager = getSystemService( Context.LOCATION_SERVICE ) as LocationManager
+            val manager = getSystemService( LOCATION_SERVICE ) as LocationManager
 
             if ( !manager.isProviderEnabled( LocationManager.GPS_PROVIDER ) ) {
                 Toast.makeText(this, "La géolocalisation n'est pas activée", Toast.LENGTH_SHORT).show()

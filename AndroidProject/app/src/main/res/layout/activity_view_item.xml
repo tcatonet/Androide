@@ -17,8 +17,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="@dimen/VerticalebiasName"
-        ></TextView>
+        app:layout_constraintVertical_bias="@dimen/VerticalebiasName"></TextView>
 
     <TextView
         android:id="@+id/description"
@@ -29,64 +28,58 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintVertical_bias="@dimen/VerticalebiasDescription"
-        app:layout_constraintTop_toTopOf="parent"></TextView>
-
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="@dimen/VerticalebiasDescription"></TextView>
 
 
     <Button
         android:id="@+id/edit"
-        android:layout_width="@dimen/sizeButton_bp_width"
+        android:layout_width="@dimen/sizeButton_bp_height"
         android:layout_height="@dimen/sizeButton_bp_height"
-        android:textSize="@dimen/inputTxt"
-        android:text="Editer"
+        android:background="@drawable/ic_baseline_edit_24"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="@dimen/VerticalebiasBiais"
-        app:layout_constraintHorizontal_bias="@dimen/Horizontalbias2Button"/>
+        app:layout_constraintVertical_bias="0.95" />
 
     <Button
         android:id="@+id/back"
-        android:layout_width="@dimen/sizeButton_bp_width"
+        android:layout_width="@dimen/sizeButton_bp_height"
         android:layout_height="@dimen/sizeButton_bp_height"
-        android:textSize="@dimen/inputTxt"
-        android:text="Retour"
+        android:background="@drawable/ic_baseline_chevron_left_24"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.05"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="@dimen/VerticalebiasBiais"
-        app:layout_constraintHorizontal_bias="@dimen/Horizontalbias1Button"/>
+        app:layout_constraintVertical_bias="0.95" />
 
     <Button
         android:id="@+id/delete"
-        android:layout_width="@dimen/sizeButton_delete_width"
+        android:layout_width="@dimen/sizeButton_bp_height"
         android:layout_height="@dimen/sizeButton_bp_height"
-        android:textSize="@dimen/inputTxt"
-        android:text="Supprimer"
+        android:background="@drawable/ic_baseline_delete_24"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.9"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.95"
-        app:layout_constraintHorizontal_bias="0.5" />
+        app:layout_constraintVertical_bias="0.95" />
 
 
     <Button
         android:id="@+id/mapButton"
-        android:layout_width="@dimen/sizeButton_delete_width"
+        android:layout_width="@dimen/sizeButton_bp_height"
         android:layout_height="@dimen/sizeButton_bp_height"
-        android:textSize="@dimen/inputTxt"
-        android:text="Position"
+        android:background="@drawable/ic_baseline_location_on_24"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.95"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.65"
-        app:layout_constraintHorizontal_bias="0.5"
-        />
+        app:layout_constraintVertical_bias="0.05"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

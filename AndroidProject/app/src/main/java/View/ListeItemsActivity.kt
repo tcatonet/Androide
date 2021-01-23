@@ -12,10 +12,8 @@ import Modele.InfoItem
 import Modele.ItemAdapter
 import Modele.OnItemClickListener
 import android.widget.TextView
-import androidx.constraintlayout.solver.widgets.ConstraintWidget.VISIBLE
-import androidx.constraintlayout.widget.ConstraintSet.VISIBLE
-import android.view.View.VISIBLE
-import android.widget.Toast
+import androidx.core.view.isVisible
+
 
 class ListeItemsActivity : AppCompatActivity(), OnItemClickListener {
 
@@ -29,9 +27,7 @@ class ListeItemsActivity : AppCompatActivity(), OnItemClickListener {
         //On charge la liste d'item à partie de la BD
         this.list_items = dbHelper.getAllItem()
 
-        if(this.list_items.size==0){
-            Toast.makeText(this, "Votre liste est vide", Toast.LENGTH_SHORT).show()
-        }
+
 
         //Création de la vue
         super.onCreate(savedInstanceState)
@@ -41,6 +37,12 @@ class ListeItemsActivity : AppCompatActivity(), OnItemClickListener {
         recyclerView.adapter = ItemAdapter(list_items, this)
 
 
+        val msg: TextView = findViewById(R.id.msg)
+
+
+        if(this.list_items.size==0){
+            msg.isVisible = true
+        }
 
 
         //On click sur le bouton addItem

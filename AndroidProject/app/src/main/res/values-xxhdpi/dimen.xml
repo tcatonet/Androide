@@ -3,6 +3,9 @@
     <dimen name="sizeButton_bp_height">60dp</dimen>
     <dimen name="sizeButton_bp_width">140dp</dimen>
 
+    <dimen name="sizeButton_bp_height2">80dp</dimen>
+    <dimen name="sizeButton_bp_width2">200dp</dimen>
+
     <dimen name="Horizontalbias1Button">0.2</dimen>
     <dimen name="Horizontalbias2Button">0.8</dimen>
 
