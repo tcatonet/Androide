@@ -1,6 +1,7 @@
 package Modele
 
 
+import RecyclerView.ItemViewHolder
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView

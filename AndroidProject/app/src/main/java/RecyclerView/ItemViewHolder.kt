@@ -1,6 +1,8 @@
-package Modele
+package RecyclerView
 
 
+import Modele.InfoItem
+import Modele.OnItemClickListener
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.TextView

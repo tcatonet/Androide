@@ -14,23 +14,23 @@ import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
 import Modele.DataBaseHelper
 import Modele.InfoItem
+import WebServices.API
+import android.net.NetworkCapabilities
+import android.os.Build
+import android.util.Log
+import androidx.annotation.RequiresApi
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import java.net.URL
 
-class LoaderActivity : AppCompatActivity() {
+class LoaderActivity : AppCompatActivity(), Callback<MutableList<InfoItem>> {
 
 
     internal var dbHelper = DataBaseHelper(this)
 
-    //Test si le réseau est  disponible
-    private fun isNetworkAvailable(): Boolean {
-        val connectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE)
-        return if (connectivityManager is ConnectivityManager) {
-            val networkInfo: NetworkInfo? = connectivityManager.activeNetworkInfo
-            networkInfo?.isConnected ?: false
-        } else false
-    }
 
-    
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_loader)
@@ -39,22 +39,12 @@ class LoaderActivity : AppCompatActivity() {
 
         //Si la base de donnée local est vide et que le réseau est disponible, on lance un appel à l'api pour charger une liste
         if (resData.count==0) {
-            if(isNetworkAvailable()){
-                doAsync {
-                    val url = URL("https://next.json-generator.com/api/json/get/E1j-LcHAK?delay=2000")
-                    val stringResponse = url.readText()
-                    val initListe = Gson().fromJson( stringResponse,object : TypeToken<MutableList<InfoItem>>() {}.type) as MutableList<InfoItem>
+            if(isNetworkConnected()){
 
-                    // On charge les données de l'api en BD
-                    for (item in initListe) {
-                        dbHelper.insertData(item.name,item.description)
-                    }
+                API.retrieveItem(this)
+                intent = Intent(this, ListeItemsActivity::class.java)
+                startActivity(intent)
 
-                    uiThread {
-                        startActivity(intent)
-
-                    }
-                }
             }else{ // Si la liste est vide et qu'il n'y a pas de réseau, on redirige l'utilisateur vers ListeItemsActivity sans charger de liste
                 intent = Intent(this, NoNetworkActivity::class.java)
                 startActivity(intent)
@@ -66,4 +56,49 @@ class LoaderActivity : AppCompatActivity() {
         }
 
     }
+
+
+
+
+    //Test si le réseau est  disponible
+
+    private fun isNetworkConnected(): Boolean
+    {
+        val connectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+        {
+            val activeNetwork =  connectivityManager.activeNetwork
+            val networkCapabilities = connectivityManager.getNetworkCapabilities(activeNetwork)
+            networkCapabilities != null && networkCapabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
+        }
+        else
+        {
+            val connectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE)
+            return if (connectivityManager is ConnectivityManager) {
+                val networkInfo: NetworkInfo? = connectivityManager.activeNetworkInfo
+                networkInfo?.isConnected ?: false
+            } else false
+        }
+    }
+
+    override fun onResponse(call: Call<MutableList<InfoItem>>, response: Response<MutableList<InfoItem>>) {
+        // val initListe = response.body()
+        Toast.makeText(this, response.toString(), Toast.LENGTH_SHORT).show()
+        Log.d("appel", response.body().toString())
+        val listItem = response.body()
+
+        // On charge les données de l'api en BD
+        if (listItem != null) {
+            for (item in listItem) {
+                dbHelper.insertData(item.name, item.description)
+            }
+        }
+    }
+
+     override fun onFailure(call: Call<MutableList<InfoItem>>, t: Throwable) {
+         Log.d("appel",  t.toString())
+      }
+
+
 }
