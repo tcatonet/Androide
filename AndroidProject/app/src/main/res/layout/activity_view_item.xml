@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="projet.ViewItemActivity">
+    tools:context="View.ViewItemActivity">
 
 
     <TextView
@@ -72,6 +72,21 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.95"
         app:layout_constraintHorizontal_bias="0.5" />
+
+
+    <Button
+        android:id="@+id/mapButton"
+        android:layout_width="@dimen/sizeButton_delete_width"
+        android:layout_height="@dimen/sizeButton_bp_height"
+        android:textSize="@dimen/inputTxt"
+        android:text="Position"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.65"
+        app:layout_constraintHorizontal_bias="0.5"
+        />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

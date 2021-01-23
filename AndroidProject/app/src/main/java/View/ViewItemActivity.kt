@@ -1,18 +1,17 @@
-package projet
+package View
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.widget.TextView
-import android.widget.Toast
 import com.example.androidproject.R
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
-import kotlinx.android.synthetic.main.activity_edit_item.*
 import kotlinx.android.synthetic.main.activity_edit_item.back
-import kotlinx.android.synthetic.main.activity_modif_item.*
 import kotlinx.android.synthetic.main.activity_view_item.*
+import Modele.DataBaseHelper
+import android.content.Context
+import android.location.LocationManager
+import android.widget.Toast
+import kotlinx.android.synthetic.main.activity_liste_items.*
 
 class ViewItemActivity : AppCompatActivity() {
 
@@ -24,7 +23,7 @@ class ViewItemActivity : AppCompatActivity() {
 
 
         //On récupère les valeur des champ name et description
-        val name: TextView = findViewById<TextView>(R.id.name)
+        val name: TextView = findViewById(R.id.name)
         val description: TextView = findViewById<TextView>(R.id.description)
 
         name.text = getIntent().getStringExtra("name")
@@ -61,6 +60,21 @@ class ViewItemActivity : AppCompatActivity() {
             }
 
         }
+
+        mapButton?.setOnClickListener {
+            val manager = getSystemService( Context.LOCATION_SERVICE ) as LocationManager
+
+            if ( !manager.isProviderEnabled( LocationManager.GPS_PROVIDER ) ) {
+                Toast.makeText(this, "La géolocalisation n'est pas activée", Toast.LENGTH_SHORT).show()
+            }else{
+                val intent = Intent(this, MapsActivity::class.java)
+                startActivity(intent)
+            }
+
+        }
+
+
+
 
 
     }

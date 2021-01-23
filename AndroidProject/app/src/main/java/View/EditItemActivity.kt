@@ -1,15 +1,12 @@
-package projet
+package View
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import android.widget.EditText
 import android.widget.Toast
 import com.example.androidproject.R
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
 import kotlinx.android.synthetic.main.activity_edit_item.*
+import Modele.DataBaseHelper
 
 class EditItemActivity : AppCompatActivity() {
 

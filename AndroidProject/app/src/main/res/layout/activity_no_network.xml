@@ -4,59 +4,44 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="View.ModifItemActivity">
+    tools:context="View.NoNetworkActivity">
 
-
-    <EditText
-        android:id="@+id/modifName"
+    <TextView
+        android:id="@+id/name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text=""
+        android:text="Vous n'êtes pas connecté à internet"
         android:textSize="@dimen/inputTxt"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="@dimen/VerticalebiasName"></EditText>
-
-    <EditText
-        android:id="@+id/modifDescription"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text=""
-        android:textSize="@dimen/inputTxt"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="@dimen/VerticalebiasDescription"></EditText>
+        app:layout_constraintVertical_bias="@dimen/VerticalebiasName"
+        ></TextView>
 
     <Button
-        android:id="@+id/validate"
+        android:id="@+id/retry"
         android:layout_width="@dimen/sizeButton_bp_width"
         android:layout_height="@dimen/sizeButton_bp_height"
         android:textSize="@dimen/inputTxt"
-        android:text="Valider"
+        android:text="Réessayer"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias=".85"
-        app:layout_constraintHorizontal_bias="@dimen/Horizontalbias2Button" />
+        app:layout_constraintVertical_bias="0.4"
+        app:layout_constraintHorizontal_bias="0.5"/>
 
     <Button
-        android:id="@+id/back"
-        android:layout_width="@dimen/sizeButton_bp_width"
+        android:id="@+id/continue_"
+        android:layout_width="@dimen/sizeButton_delete_width"
         android:layout_height="@dimen/sizeButton_bp_height"
         android:textSize="@dimen/inputTxt"
-        android:text="Retour"
+        android:text="Continuer quand même"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias=".85"
-        app:layout_constraintHorizontal_bias="@dimen/Horizontalbias1Button" />
-
-
-
+        app:layout_constraintVertical_bias="0.6"
+        app:layout_constraintHorizontal_bias="0.5" />
 </androidx.constraintlayout.widget.ConstraintLayout>

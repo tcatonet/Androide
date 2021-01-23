@@ -1,18 +1,14 @@
-package projet
+package View
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
 import com.example.androidproject.R
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
-import kotlinx.android.synthetic.main.activity_edit_item.*
 import kotlinx.android.synthetic.main.activity_edit_item.back
 import kotlinx.android.synthetic.main.activity_edit_item.validate
 import kotlinx.android.synthetic.main.activity_modif_item.*
-import kotlinx.android.synthetic.main.activity_view_item.*
+import Modele.DataBaseHelper
 
 class ModifItemActivity : AppCompatActivity() {
 
@@ -41,7 +37,6 @@ class ModifItemActivity : AppCompatActivity() {
 
             var name = modifName.text.toString()
             var description = modifDescription.text.toString()
-
 
 
             val list_items = dbHelper.getAllItem()

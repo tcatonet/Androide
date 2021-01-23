@@ -1,13 +1,12 @@
-package projet
+package Modele
 
 import android.content.ContentValues
 import android.content.Context
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
-import android.util.Log
 
-class DataBaseHelper (context: Context) : SQLiteOpenHelper(context,DATABASE_NAME , null, 1){
+class DataBaseHelper (context: Context) : SQLiteOpenHelper(context, DATABASE_NAME , null, 1){
 
 
 

@@ -1,32 +1,37 @@
-package projet
+package View
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.Handler
-import android.util.Log
-import android.widget.Toast
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.androidproject.R
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
 import kotlinx.android.synthetic.main.activity_liste_items.*
-import org.jetbrains.anko.doAsync
-import org.jetbrains.anko.uiThread
-import java.net.URL
+import Modele.DataBaseHelper
+import Modele.InfoItem
+import Modele.ItemAdapter
+import Modele.OnItemClickListener
+import android.widget.TextView
+import androidx.constraintlayout.solver.widgets.ConstraintWidget.VISIBLE
+import androidx.constraintlayout.widget.ConstraintSet.VISIBLE
+import android.view.View.VISIBLE
+import android.widget.Toast
 
-class ListeItemsActivity : AppCompatActivity(), OnItemClickListener  {
+class ListeItemsActivity : AppCompatActivity(), OnItemClickListener {
 
-    private var list_items = mutableListOf(
-        InfoItem("none", "none"),
-    )
+    private var list_items = mutableListOf<InfoItem>()
     internal var dbHelper = DataBaseHelper(this)
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
         //On charge la liste d'item à partie de la BD
         this.list_items = dbHelper.getAllItem()
+
+        if(this.list_items.size==0){
+            Toast.makeText(this, "Votre liste est vide", Toast.LENGTH_SHORT).show()
+        }
 
         //Création de la vue
         super.onCreate(savedInstanceState)
@@ -44,6 +49,10 @@ class ListeItemsActivity : AppCompatActivity(), OnItemClickListener  {
             startActivity(intent)
 
         }
+
+
+
+
     }
 
     //On click sur un item de la liste
