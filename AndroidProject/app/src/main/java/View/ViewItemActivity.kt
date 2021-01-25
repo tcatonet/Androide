@@ -60,6 +60,7 @@ class ViewItemActivity : AppCompatActivity() {
                 for (item in list_items){
                     if(item.name == name){
                         dbHelper.deleteOneItem(name)
+                        Toast.makeText(this, "Item supprimé" , Toast.LENGTH_SHORT).show()
                         startActivity(intent)
                         break
                     }

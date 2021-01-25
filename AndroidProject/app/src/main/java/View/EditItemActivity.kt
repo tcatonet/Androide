@@ -22,7 +22,7 @@ class EditItemActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        //Click sur le bouton valider
+        //Click sur le bouton valider pur ajuoter un item
         validate?.setOnClickListener {
             val intent = Intent(this, ListeItemsActivity::class.java)
 
@@ -43,6 +43,7 @@ class EditItemActivity : AppCompatActivity() {
                 }
                 if (isUnique) {
                     dbHelper.insertData(name, description)
+                    Toast.makeText(this, "Item ajouté" , Toast.LENGTH_SHORT).show()
                     startActivity(intent)
                 }else{
                     Toast.makeText(this, "Le nom doit être unique" , Toast.LENGTH_SHORT).show()
