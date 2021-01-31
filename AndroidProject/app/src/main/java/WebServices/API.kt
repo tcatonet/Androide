@@ -11,7 +11,7 @@ object API {
     // build de l'interface
     init{
         val retrofit  = Retrofit.Builder()
-            .baseUrl("https://next.json-generator.com/api/")
+            .baseUrl("http://34.230.81.125:5000/")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
         nentworkIt = retrofit.create(NetworkInterface::class.java)
