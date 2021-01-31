@@ -59,7 +59,7 @@ class ModifItemActivity : AppCompatActivity() {
                         break
                     }
                 }
-
+                Toast.makeText(this,"Item modifié", Toast.LENGTH_SHORT).show()
                 intent.putExtra("name", modifName.getText().toString())
                 intent.putExtra("description",modifDescription.getText().toString())
                 startActivity(intent)

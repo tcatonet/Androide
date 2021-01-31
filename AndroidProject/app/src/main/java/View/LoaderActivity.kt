@@ -42,10 +42,10 @@ class LoaderActivity : AppCompatActivity(), Callback<MutableList<InfoItem>> {
             if(isNetworkConnected()){
 
                 API.retrieveItem(this)
-                intent = Intent(this, ListeItemsActivity::class.java)
-                startActivity(intent)
+
 
             }else{ // Si la liste est vide et qu'il n'y a pas de réseau, on redirige l'utilisateur vers ListeItemsActivity sans charger de liste
+
                 intent = Intent(this, NoNetworkActivity::class.java)
                 startActivity(intent)
             }
@@ -83,8 +83,9 @@ class LoaderActivity : AppCompatActivity(), Callback<MutableList<InfoItem>> {
     }
 
     override fun onResponse(call: Call<MutableList<InfoItem>>, response: Response<MutableList<InfoItem>>) {
-        // val initListe = response.body()
-        Toast.makeText(this, response.toString(), Toast.LENGTH_SHORT).show()
+
+        Toast.makeText(this, "REUSSITE" , Toast.LENGTH_SHORT).show()
+
         Log.d("appel", response.body().toString())
         val listItem = response.body()
 
@@ -94,10 +95,15 @@ class LoaderActivity : AppCompatActivity(), Callback<MutableList<InfoItem>> {
                 dbHelper.insertData(item.name, item.description)
             }
         }
+        intent = Intent(this, ListeItemsActivity::class.java)
+        startActivity(intent)
     }
 
      override fun onFailure(call: Call<MutableList<InfoItem>>, t: Throwable) {
-         Log.d("appel",  t.toString())
+         Toast.makeText(this, "ECHEC" , Toast.LENGTH_SHORT).show()
+
+         intent = Intent(this, NoNetworkActivity::class.java)
+         startActivity(intent)
       }
 
 
