@@ -20,14 +20,18 @@ class ModifItemActivity : AppCompatActivity() {
 
         modifName.setText(getIntent().getStringExtra("name"))
         modifDescription.setText(getIntent().getStringExtra("description"))
+
         val nameOrigin = getIntent().getStringExtra("name")
         val decriptionOrigin = getIntent().getStringExtra("description")
+        val adresse = getIntent().getStringExtra("adresse")
 
         //Click sur le bouton retour
         back?.setOnClickListener {
             val intent = Intent(this, ViewItemActivity::class.java)
             intent.putExtra("name", nameOrigin)
             intent.putExtra("description",decriptionOrigin)
+            intent.putExtra("adresse",adresse)
+
             startActivity(intent)
         }
 
@@ -62,6 +66,8 @@ class ModifItemActivity : AppCompatActivity() {
                 Toast.makeText(this,"Item modifié", Toast.LENGTH_SHORT).show()
                 intent.putExtra("name", modifName.getText().toString())
                 intent.putExtra("description",modifDescription.getText().toString())
+                intent.putExtra("adresse",adresse)
+
                 startActivity(intent)
 
             }else{

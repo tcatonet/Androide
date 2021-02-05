@@ -5,28 +5,31 @@ import android.content.Context
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
+import android.util.Log
 
 class DataBaseHelper (context: Context) : SQLiteOpenHelper(context, DATABASE_NAME , null, 1){
 
 
 
     override fun onCreate(db: SQLiteDatabase) {
-        db.execSQL("CREATE TABLE $TABLE_NAME (ID INTEGER PRIMARY KEY AUTOINCREMENT, NAME TEXT, DESCRIPTION TEXT)")
+        db.execSQL("CREATE TABLE $TABLE_NAME (ID INTEGER PRIMARY KEY AUTOINCREMENT, $COL_NAME TEXT, $COL_DESCRIPTION TEXT, $COL_ADRESSE TEXT, $COL_LATITTUDE TEXT,$COL_LONGITUDE TEXT)")
     }
 
     override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
-        if (db != null) {
-            db.execSQL("DROP TABLE IF EXISTS $TABLE_NAME")
-        }
+        db?.execSQL("DROP TABLE IF EXISTS $TABLE_NAME")
 
     }
 
     //Ajoute un nouvel item dans la base de données
-    fun insertData(nameVal:String, descriptionVal: String){
+    fun insertData(nameVal:String, descriptionVal: String, addressVal: String, longitudeVal: String, latitudeVal: String){
         val db = this.writableDatabase
         val contentValue = ContentValues()
         contentValue.put(COL_NAME, nameVal)
         contentValue.put(COL_DESCRIPTION, descriptionVal)
+        contentValue.put(COL_ADRESSE, addressVal)
+        contentValue.put(COL_LATITTUDE, latitudeVal)
+        contentValue.put(COL_LONGITUDE, longitudeVal)
+
         db.insert(TABLE_NAME,null,contentValue)
     }
 
@@ -36,6 +39,7 @@ class DataBaseHelper (context: Context) : SQLiteOpenHelper(context, DATABASE_NAM
         val contentValue = ContentValues()
         contentValue.put(COL_NAME, newName)
         contentValue.put(COL_DESCRIPTION, descriptionVal)
+
         db.update(TABLE_NAME, contentValue,"NAME = ?", arrayOf(lastName))
     }
 
@@ -48,15 +52,18 @@ class DataBaseHelper (context: Context) : SQLiteOpenHelper(context, DATABASE_NAM
     //Retourne une MutableList des item en BD
     fun getAllItem(): MutableList<InfoItem> {
         val db = this.writableDatabase
-        val res = db.rawQuery("SELECT name,description FROM $TABLE_NAME "  , null )
+        val res = db.rawQuery("SELECT name,description,adresse,latittude,longitude FROM $TABLE_NAME "  , null )
         val itemList: MutableList<InfoItem> = mutableListOf()
 
         res.moveToFirst()
         while(!res.isAfterLast) {
-            var name = res.getString(res.getColumnIndex("NAME"))
-            var description= res.getString(res.getColumnIndex("DESCRIPTION"))
+            var name = res.getString(res.getColumnIndex(COL_NAME))
+            var description= res.getString(res.getColumnIndex(COL_DESCRIPTION))
+            var adresse = res.getString(res.getColumnIndex(COL_ADRESSE))
+            var latittude= res.getString(res.getColumnIndex(COL_LATITTUDE))
+            var longitude= res.getString(res.getColumnIndex(COL_LONGITUDE))
 
-            itemList.add(InfoItem(name,description))
+            itemList.add(InfoItem(name,description,adresse, latittude,longitude))
             res.moveToNext()
         }
         return itemList
@@ -72,9 +79,12 @@ class DataBaseHelper (context: Context) : SQLiteOpenHelper(context, DATABASE_NAM
     companion object{
         const val DATABASE_NAME="DBListe"
         const val TABLE_NAME="ListeItem"
-        const val COL_ID="id"
         const val COL_NAME="name"
         const val COL_DESCRIPTION="description"
+        const val COL_ADRESSE="adresse"
+        const val COL_LONGITUDE="longitude"
+        const val COL_LATITTUDE="latittude"
+
 
     }
 }

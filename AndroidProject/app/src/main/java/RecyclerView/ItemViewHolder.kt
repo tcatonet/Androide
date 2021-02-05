@@ -16,19 +16,20 @@ class ItemViewHolder(inflater: LayoutInflater, parent: ViewGroup) :
     ) {
 
     private var fullNameTextView: TextView? = null
-    private var descriptionTextView: TextView? = null
+    private var adresseTextView: TextView? = null
 
     //Liaison avec le fragement
     init {
         fullNameTextView=itemView.findViewById(R.id.fullNameTextView)
-        descriptionTextView=itemView.findViewById(R.id.descriptionTextView)
+        adresseTextView=itemView.findViewById(R.id.adresseTextView)
+
     }
 
     // fait le lien entre un objet item et l'adapter
     //Affiche les éléments dans le fragement user_item
     fun bind(item: InfoItem, action: OnItemClickListener){
         fullNameTextView?.text = "${item.name}"
-        descriptionTextView?.text = " ${item.description}"
+        adresseTextView?.text = " ${item.adresse}"
 
         itemView.setOnClickListener{
              action.onItemClick(item,adapterPosition)

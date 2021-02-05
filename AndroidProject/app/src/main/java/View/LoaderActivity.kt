@@ -30,7 +30,7 @@ class LoaderActivity : AppCompatActivity(), Callback<MutableList<InfoItem>> {
     internal var dbHelper = DataBaseHelper(this)
 
 
-//Version 2.0
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_loader)
@@ -42,6 +42,7 @@ class LoaderActivity : AppCompatActivity(), Callback<MutableList<InfoItem>> {
             if(isNetworkConnected()){
 
                 API.retrieveItem(this)
+
 
             }else{ // Si la liste est vide et qu'il n'y a pas de réseau, on redirige l'utilisateur vers ListeItemsActivity sans charger de liste
 
@@ -91,7 +92,7 @@ class LoaderActivity : AppCompatActivity(), Callback<MutableList<InfoItem>> {
         // On charge les données de l'api en BD
         if (listItem != null) {
             for (item in listItem) {
-                dbHelper.insertData(item.name, item.description)
+                dbHelper.insertData(item.name, item.description, item.adresse, item.latittude,item.longitude)
             }
         }
         intent = Intent(this, ListeItemsActivity::class.java)
@@ -99,8 +100,8 @@ class LoaderActivity : AppCompatActivity(), Callback<MutableList<InfoItem>> {
     }
 
      override fun onFailure(call: Call<MutableList<InfoItem>>, t: Throwable) {
+         Toast.makeText(this, "ECHEC" , Toast.LENGTH_SHORT).show()
 
-         Log.d("error2",t.message.toString())
          intent = Intent(this, NoNetworkActivity::class.java)
          startActivity(intent)
       }

@@ -24,8 +24,12 @@ class ViewItemActivity : AppCompatActivity() {
         //On récupère les valeur des champ name et description
         val name: TextView = findViewById(R.id.name)
         val description: TextView = findViewById<TextView>(R.id.description)
+        val adresse: TextView = findViewById<TextView>(R.id.adresse)
+        val latitude = getIntent().getStringExtra("latitude")
+        val longitude =  getIntent().getStringExtra("longitude")
 
         name.text = getIntent().getStringExtra("name")
+        adresse.text = getIntent().getStringExtra("adresse")
         description.text = getIntent().getStringExtra("description")
 
         //Click sur le bouton retour
@@ -77,13 +81,14 @@ class ViewItemActivity : AppCompatActivity() {
 
 
         mapButton?.setOnClickListener {
-
             val manager = getSystemService( LOCATION_SERVICE ) as LocationManager
 
             if ( !manager.isProviderEnabled( LocationManager.GPS_PROVIDER ) ) {
                 Toast.makeText(this, "La géolocalisation n'est pas activée", Toast.LENGTH_SHORT).show()
             }else{
-                val intent = Intent(this, MapsActivity::class.java)
+                val intent = Intent(this, MapActivity::class.java)
+                intent.putExtra("latitude", latitude)
+                intent.putExtra("longitude",longitude)
                 startActivity(intent)
             }
 

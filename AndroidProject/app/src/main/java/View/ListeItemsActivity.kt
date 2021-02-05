@@ -64,6 +64,9 @@ class ListeItemsActivity : AppCompatActivity(), OnItemClickListener {
         //On envoit les infos de l'item à ViewItemActivity
         intent.putExtra("name", item.name)
         intent.putExtra("description", item.description)
+        intent.putExtra("adresse", item.adresse)
+        intent.putExtra("longitude", item.longitude)
+        intent.putExtra("latitude", item.latittude)
         startActivity(intent)
     }
 

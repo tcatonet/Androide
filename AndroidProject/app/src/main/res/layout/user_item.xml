@@ -11,7 +11,7 @@
         android:id="@+id/fullNameTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@id/descriptionTextView"
+        app:layout_constraintBottom_toTopOf="@id/adresseTextView"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:textSize="28sp"
@@ -19,7 +19,7 @@
 
 
     <TextView
-        android:id="@+id/descriptionTextView"
+        android:id="@+id/adresseTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"

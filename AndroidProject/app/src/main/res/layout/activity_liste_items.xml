@@ -31,10 +31,7 @@
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/addItem"
-
-
         android:tint="@android:color/white"
-
         app:srcCompat="@drawable/ic_baseline_add_24"
         android:layout_width="56dp"
         android:layout_height="56dp"
