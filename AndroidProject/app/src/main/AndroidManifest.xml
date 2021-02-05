@@ -10,7 +10,6 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
 
     <application
         android:usesCleartextTraffic="true"
@@ -32,9 +31,10 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyBYBQ9lUE_V2RNNLh8MZ56OAdH_ETIt7b8" />
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
 
-        <activity android:name="View.MapsActivity" />
-        <activity android:name="View.MapActivity"/>
 
         <activity android:name="View.LoaderActivity">
             <intent-filter>
@@ -44,6 +44,7 @@
             </intent-filter>
         </activity>
         <activity android:name="View.ModifItemActivity" />
+        <activity android:name="View.MapsActivity" />
         <activity android:name="View.ViewItemActivity" />
         <activity android:name="View.EditItemActivity" />
         <activity android:name="View.ListeItemsActivity" />

@@ -2,18 +2,15 @@ package View
 
 import android.Manifest
 import android.content.Context
-import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Location
 import android.location.LocationManager
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.FragmentActivity
 import com.example.androidproject.R
 import com.google.android.gms.location.*
-import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
@@ -36,7 +33,6 @@ class MapsActivity : FragmentActivity(), OnMapReadyCallback {
 
         fusedLocationProviderClient =  LocationServices.getFusedLocationProviderClient(this@MapsActivity)
 
-        val locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
 
         fetchLocation()
 
@@ -54,13 +50,15 @@ class MapsActivity : FragmentActivity(), OnMapReadyCallback {
                 PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this,
                     arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), permissionCode)
+
             return
         }
 
+        Toast.makeText(this, "YES" , Toast.LENGTH_SHORT).show()
+
         val task = fusedLocationProviderClient.lastLocation
 
-        task.addOnSuccessListener {
-            location ->
+        task.addOnSuccessListener { location ->
             if (location != null) {
 
                 currentLocation = location
@@ -72,11 +70,17 @@ class MapsActivity : FragmentActivity(), OnMapReadyCallback {
         }
     }
     override fun onMapReady(googleMap: GoogleMap?) {
-        val latLng = LatLng(currentLocation.latitude, currentLocation.longitude)
+
+        val sydney = LatLng(-33.852, 151.211)
+        googleMap!!.addMarker(MarkerOptions()
+                .position(sydney)
+                .title("Marker in Sydney"))
+
+        /*val latLng = LatLng(currentLocation.latitude, currentLocation.longitude)
         val markerOptions = MarkerOptions().position(latLng).title("I am here!")
         googleMap?.animateCamera(CameraUpdateFactory.newLatLng(latLng))
         googleMap?.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 5f))
-        googleMap?.addMarker(markerOptions)
+        googleMap?.addMarker(markerOptions)*/
     }
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String?>,
                                             grantResults: IntArray) {

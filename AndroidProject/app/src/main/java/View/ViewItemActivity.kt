@@ -77,6 +77,7 @@ class ViewItemActivity : AppCompatActivity() {
 
 
         mapButton?.setOnClickListener {
+
             val manager = getSystemService( LOCATION_SERVICE ) as LocationManager
 
             if ( !manager.isProviderEnabled( LocationManager.GPS_PROVIDER ) ) {
