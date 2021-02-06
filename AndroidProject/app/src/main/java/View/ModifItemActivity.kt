@@ -49,7 +49,7 @@ class ModifItemActivity : AppCompatActivity() {
             // Teste si le nom saisie à la modifiction de l'item est unique
             if(name != nameOrigin){
                 for (item in list_items) {
-                    if(name == item.name){
+                    if(name.trim() == item.name.trim()){
                         isUnique = false
                     }
                 }
@@ -58,7 +58,7 @@ class ModifItemActivity : AppCompatActivity() {
 
                 for (item in list_items) {
 
-                    if (item.name == nameOrigin) {
+                    if (item.name.trim() == nameOrigin) {
                         dbHelper.updateData(nameOrigin, name, description)
                         break
                     }

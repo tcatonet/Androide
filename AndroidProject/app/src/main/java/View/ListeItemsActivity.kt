@@ -27,6 +27,8 @@ class ListeItemsActivity : AppCompatActivity(), OnItemClickListener {
         //On charge la liste d'item à partie de la BD
         this.list_items = dbHelper.getAllItem()
 
+        val sharedPreference =getSharedPreferences("projet", MODE_PRIVATE)
+        sharedPreference.edit().putString("nom", "" as String?).apply()
 
 
         //Création de la vue
@@ -35,6 +37,8 @@ class ListeItemsActivity : AppCompatActivity(), OnItemClickListener {
         recyclerView.addItemDecoration(DividerItemDecoration(this,1))
         recyclerView.layoutManager = LinearLayoutManager(this@ListeItemsActivity)
         recyclerView.adapter = ItemAdapter(list_items, this)
+
+
 
 
         val msg: TextView = findViewById(R.id.msg)
