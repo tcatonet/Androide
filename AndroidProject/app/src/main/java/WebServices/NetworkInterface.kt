@@ -1,20 +1,22 @@
 package WebServices
 
 import Modele.InfoItem
+import Modele.InfoItemReception
+import Modele.InfoItemReceptionSupression
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Path
 
 interface  NetworkInterface {
-    val test: Int
 
-    @GET("/get/all")
-    fun retrieveItem(): Call<MutableList<InfoItem>>
+
+    @GET("/getall")
+    fun retrieveItem(): Call<MutableList<InfoItemReception>>
 
     @GET("/del/{name}")
-    fun deleteItem(@Path("name") name: String): Call<MutableList<InfoItem>>
+    fun deleteItem(@Path("name") name: String): Call<InfoItemReceptionSupression>
 
     @GET("/add/{item}")
-    fun addItem(@Path("/add/{item}") item: String): Call<MutableList<InfoItem>>
+    fun addItem(@Path("item") item: String): Call<InfoItemReception>
 
 }

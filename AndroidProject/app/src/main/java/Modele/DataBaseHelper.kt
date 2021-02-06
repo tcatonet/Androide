@@ -12,7 +12,7 @@ class DataBaseHelper (context: Context) : SQLiteOpenHelper(context, DATABASE_NAM
 
 
     override fun onCreate(db: SQLiteDatabase) {
-        db.execSQL("CREATE TABLE $TABLE_NAME (ID INTEGER PRIMARY KEY AUTOINCREMENT, $COL_NAME TEXT, $COL_DESCRIPTION TEXT, $COL_ADRESSE TEXT, $COL_LATITTUDE TEXT,$COL_LONGITUDE TEXT)")
+        db.execSQL("CREATE TABLE $TABLE_NAME (ID INTEGER PRIMARY KEY AUTOINCREMENT, $COL_NAME TEXT, $COL_DESCRIPTION TEXT, $COL_ADRESSE TEXT, $COL_LATITUDE TEXT,$COL_LONGITUDE TEXT)")
     }
 
     override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
@@ -27,7 +27,7 @@ class DataBaseHelper (context: Context) : SQLiteOpenHelper(context, DATABASE_NAM
         contentValue.put(COL_NAME, nameVal)
         contentValue.put(COL_DESCRIPTION, descriptionVal)
         contentValue.put(COL_ADRESSE, addressVal)
-        contentValue.put(COL_LATITTUDE, latitudeVal)
+        contentValue.put(COL_LATITUDE, latitudeVal)
         contentValue.put(COL_LONGITUDE, longitudeVal)
 
         db.insert(TABLE_NAME,null,contentValue)
@@ -60,10 +60,10 @@ class DataBaseHelper (context: Context) : SQLiteOpenHelper(context, DATABASE_NAM
             var name = res.getString(res.getColumnIndex(COL_NAME))
             var description= res.getString(res.getColumnIndex(COL_DESCRIPTION))
             var adresse = res.getString(res.getColumnIndex(COL_ADRESSE))
-            var latittude= res.getString(res.getColumnIndex(COL_LATITTUDE))
+            var latitude= res.getString(res.getColumnIndex(COL_LATITUDE))
             var longitude= res.getString(res.getColumnIndex(COL_LONGITUDE))
 
-            itemList.add(InfoItem(name,description,adresse, latittude,longitude))
+            itemList.add(InfoItem(name,description,adresse, latitude,longitude))
             res.moveToNext()
         }
         return itemList
@@ -83,7 +83,7 @@ class DataBaseHelper (context: Context) : SQLiteOpenHelper(context, DATABASE_NAM
         const val COL_DESCRIPTION="description"
         const val COL_ADRESSE="adresse"
         const val COL_LONGITUDE="longitude"
-        const val COL_LATITTUDE="latittude"
+        const val COL_LATITUDE="latittude"
 
 
     }

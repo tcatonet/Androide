@@ -45,33 +45,39 @@ class ModifItemActivity : AppCompatActivity() {
 
             val list_items = dbHelper.getAllItem()
             var isUnique = true
+            Toast.makeText(this, "name:" + name, Toast.LENGTH_SHORT).show()
 
-            // Teste si le nom saisie à la modifiction de l'item est unique
-            if(name != nameOrigin){
-                for (item in list_items) {
-                    if(name.trim() == item.name.trim()){
-                        isUnique = false
+            if( name.trim() != "") {
+                // Teste si le nom saisie à la modifiction de l'item est unique
+                if (name != nameOrigin) {
+                    for (item in list_items) {
+                        if (name.trim() == item.name.trim()) {
+                            isUnique = false
+                        }
                     }
                 }
-            }
-            if(isUnique) {
+                if (isUnique) {
 
-                for (item in list_items) {
+                    for (item in list_items) {
 
-                    if (item.name.trim() == nameOrigin) {
-                        dbHelper.updateData(nameOrigin, name, description)
-                        break
+                        if (item.name.trim() == nameOrigin) {
+                            dbHelper.updateData(nameOrigin, name, description)
+                            break
+                        }
                     }
+                    Toast.makeText(this, "Item modifié", Toast.LENGTH_SHORT).show()
+                    intent.putExtra("name", modifName.getText().toString())
+                    intent.putExtra("description", modifDescription.getText().toString())
+                    intent.putExtra("adresse", adresse)
+
+                    startActivity(intent)
+
+                } else {
+                    Toast.makeText(this, "Le nom doit être unique", Toast.LENGTH_SHORT).show()
                 }
-                Toast.makeText(this,"Item modifié", Toast.LENGTH_SHORT).show()
-                intent.putExtra("name", modifName.getText().toString())
-                intent.putExtra("description",modifDescription.getText().toString())
-                intent.putExtra("adresse",adresse)
-
-                startActivity(intent)
-
             }else{
-                Toast.makeText(this, "Le nom doit être unique" , Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Le nom ne peut pas être vide", Toast.LENGTH_SHORT).show()
+
             }
         }
     }

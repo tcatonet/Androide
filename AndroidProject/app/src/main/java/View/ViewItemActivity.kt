@@ -9,6 +9,7 @@ import kotlinx.android.synthetic.main.activity_edit_item.back
 import kotlinx.android.synthetic.main.activity_view_item.*
 import Modele.DataBaseHelper
 import Modele.InfoItem
+import Modele.InfoItemReceptionSupression
 import WebServices.API
 import android.Manifest
 import android.content.Context
@@ -19,6 +20,7 @@ import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.net.NetworkInfo
 import android.os.Build
+import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
@@ -30,7 +32,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class ViewItemActivity : AppCompatActivity(), Callback<MutableList<InfoItem>> {
+class ViewItemActivity : AppCompatActivity(), Callback<InfoItemReceptionSupression> {
 
     internal var dbHelper = DataBaseHelper(this)
 
@@ -110,7 +112,6 @@ class ViewItemActivity : AppCompatActivity(), Callback<MutableList<InfoItem>> {
         }
 
 
-
         //Click sur le bouton retour
         back?.setOnClickListener {
             val intent = Intent(this, ListeItemsActivity::class.java)
@@ -130,11 +131,8 @@ class ViewItemActivity : AppCompatActivity(), Callback<MutableList<InfoItem>> {
         delete?.setOnClickListener {
 
 
-            val nameUserDelete: String? = name.text as String?
 
-            if (nameUserDelete != null) {
-                API.deleteItem(this@ViewItemActivity, nameUserDelete)
-            }
+            API.deleteItem(this@ViewItemActivity, name.text.toString())
 
 
 
@@ -208,11 +206,13 @@ class ViewItemActivity : AppCompatActivity(), Callback<MutableList<InfoItem>> {
 
     }
 
-    override fun onResponse(call: Call<MutableList<InfoItem>>, response: Response<MutableList<InfoItem>>) {
-        TODO("Not yet implemented")
+    override fun onResponse(call: Call<InfoItemReceptionSupression>, response: Response<InfoItemReceptionSupression>) {
+        Log.d("appel", "YES2")
     }
 
-    override fun onFailure(call: Call<MutableList<InfoItem>>, t: Throwable) {
-        TODO("Not yet implemented")
+    override fun onFailure(call: Call<InfoItemReceptionSupression>, t: Throwable) {
+        Log.d("appel", "error supr" +  t.message)
+        t.message?.let { Log.d("failtrack", it) }
+
     }
 }

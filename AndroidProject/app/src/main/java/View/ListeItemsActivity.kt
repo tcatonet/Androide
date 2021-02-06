@@ -70,7 +70,7 @@ class ListeItemsActivity : AppCompatActivity(), OnItemClickListener {
         intent.putExtra("description", item.description)
         intent.putExtra("adresse", item.adresse)
         intent.putExtra("longitude", item.longitude)
-        intent.putExtra("latitude", item.latittude)
+        intent.putExtra("latitude", item.latitude)
         startActivity(intent)
     }
 

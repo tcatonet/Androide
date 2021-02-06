@@ -1,7 +1,9 @@
 package WebServices
 
+import View.EditItemActivity
 import View.LoaderActivity
 import View.ViewItemActivity
+import android.util.Log
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -12,7 +14,7 @@ object API {
     // build de l'interface
     init{
         val retrofit  = Retrofit.Builder()
-            .baseUrl("http://34.230.81.125:5000/")
+            .baseUrl("http://34.230.81.125:80/")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
         nentworkIt = retrofit.create(NetworkInterface::class.java)
@@ -33,9 +35,10 @@ object API {
         call?.enqueue(callback)
     }
 
-    fun addItem(callback: ViewItemActivity, name:String, description:String)
+    fun addItem(callback: EditItemActivity, name:String, description:String, latitude:String, longitude:String,adresse:String)
     {
-        val item = name+"/"+description
+
+        val item = name+"/"+description+"/"+latitude+"/"+longitude+"/"+adresse
         val call = nentworkIt?.addItem(item)
         call?.enqueue(callback)
     }

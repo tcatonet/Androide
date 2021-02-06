@@ -1,6 +1,10 @@
 package View
 
 import Modele.DataBaseHelper
+import Modele.InfoItem
+import Modele.InfoItemReception
+import WebServices.API
+import WebServices.API.addItem
 import android.Manifest
 import android.content.Context
 import android.content.Intent
@@ -14,6 +18,7 @@ import android.net.NetworkCapabilities
 import android.net.NetworkInfo
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -24,11 +29,14 @@ import com.google.android.gms.location.*
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.LatLng
 import kotlinx.android.synthetic.main.activity_edit_item.*
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import java.io.IOException
 import java.util.*
 import kotlin.concurrent.schedule
 
-class EditItemActivity : AppCompatActivity() {
+class EditItemActivity : AppCompatActivity(), Callback<InfoItemReception> {
 
     internal var dbHelper = DataBaseHelper(this)
     private lateinit var fusedLocationClient: FusedLocationProviderClient
@@ -108,6 +116,7 @@ class EditItemActivity : AppCompatActivity() {
         //Click sur le bouton valider pur ajuoter un item
         validate?.setOnClickListener {
 
+
             val intent = Intent(this, ListeItemsActivity::class.java)
 
             var name = name.text.toString()
@@ -163,36 +172,41 @@ class EditItemActivity : AppCompatActivity() {
 
                             var isUnique = true
                             val res = dbHelper.getAllItem()
+                                if( name.trim() != "") {
+                                    //Si la liste contient des items et que le nom du nouvel item  a été modifié, on s'assure que ce nouveau nom n'est pas déja associé à un item de la liste
+                                    if (res != null) {
 
-                            //Si la liste contient des items et que le nom du nouvel item  a été modifié, on s'assure que ce nouveau nom n'est pas déja associé à un item de la liste
-                            if (res != null) {
+                                        // Teste si le nom saisie à la création de l'item est unique
+                                        for (item in res) {
+                                            if (item.name.trim() == name.trim()) {
+                                                isUnique = false
+                                                break
+                                            }
+                                        }
+                                        if (isUnique) {
+                                            if (adresse != "" && latitude != "" && longitude != "") {
 
-                                // Teste si le nom saisie à la création de l'item est unique
-                                for (item in res) {
-                                    if (item.name.trim() == name.trim()) {
-                                        isUnique = false
-                                        break
+                                                dbHelper.insertData(name.trim(), adresse.trim(), description.trim(), latitude.trim(), longitude.trim())
+                                                API.addItem(this@EditItemActivity, name.trim(), description.trim(), latitude.trim(), longitude.trim(), adresse.trim())
+
+                                                Toast.makeText(this, "Item ajouté", Toast.LENGTH_SHORT).show()
+                                            } else {
+                                                Toast.makeText(this, "Impossible de trouver votre position", Toast.LENGTH_SHORT).show()
+                                                startActivity(intent)
+                                            }
+
+                                        } else {
+                                            Toast.makeText(this, "Le nom doit être unique", Toast.LENGTH_SHORT).show()
+
+                                        }
+
+                                    } else {
+                                        dbHelper.insertData(name.trim(), description.trim(), adresse.trim(), latitude.trim(), longitude.trim())
+                                        API.addItem(this@EditItemActivity, name.trim(), description.trim(), latitude.trim(), longitude.trim(), adresse.trim())
                                     }
+                                }else{
+                                    Toast.makeText(this, "Le nom ne peut pas être vide", Toast.LENGTH_SHORT).show()
                                 }
-                                if (isUnique) {
-                                    if(adresse != "" && latitude != "" && longitude != "") {
-                                        dbHelper.insertData(name, adresse, description, latitude, longitude)
-                                        Toast.makeText(this, "Item ajouté", Toast.LENGTH_SHORT).show()
-                                    }else{
-                                        Toast.makeText(this, "Impossible de trouver votre position", Toast.LENGTH_SHORT).show()
-                                    }
-
-                                    startActivity(intent)
-                                } else {
-                                    Toast.makeText(this, "Le nom doit être unique", Toast.LENGTH_SHORT).show()
-
-                                }
-
-                            } else {
-                                dbHelper.insertData(name, description, adresse, latitude, longitude)
-                                startActivity(intent)
-                            }
-
 
                         }
                     }
@@ -233,6 +247,20 @@ class EditItemActivity : AppCompatActivity() {
 
     companion object {
         const val LOCATION_PERMISSION_REQUEST_CODE = 1
+    }
+
+    override fun onResponse(call: Call<InfoItemReception>, response: Response<InfoItemReception>) {
+        Log.d("appel", "YES")
+        val intent = Intent(this, ListeItemsActivity::class.java)
+        startActivity(intent)
+
+    }
+
+    override fun onFailure(call: Call<InfoItemReception>, t: Throwable) {
+        Log.d("appel", "error supr" +  t.message)
+        t.message?.let { Log.d("failtrack", it) }
+        val intent = Intent(this, ListeItemsActivity::class.java)
+        startActivity(intent)
     }
 }
 

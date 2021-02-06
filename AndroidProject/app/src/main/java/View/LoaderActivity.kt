@@ -9,6 +9,7 @@ import android.os.Bundle
 import com.example.androidproject.R
 import Modele.DataBaseHelper
 import Modele.InfoItem
+import Modele.InfoItemReception
 import WebServices.API
 import android.net.NetworkCapabilities
 import android.os.Build
@@ -17,7 +18,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class LoaderActivity : AppCompatActivity(), Callback<MutableList<InfoItem>> {
+class LoaderActivity : AppCompatActivity(), Callback<MutableList<InfoItemReception>> {
 
 
     internal var dbHelper = DataBaseHelper(this)
@@ -33,6 +34,7 @@ class LoaderActivity : AppCompatActivity(), Callback<MutableList<InfoItem>> {
         //Si la base de donnée local est vide et que le réseau est disponible, on lance un appel à l'api pour charger une liste
         if (resData.count==0) {
             if(isNetworkConnected()){
+                Log.d("appel", "TEST")
 
                 API.retrieveItem(this)
 
@@ -75,7 +77,7 @@ class LoaderActivity : AppCompatActivity(), Callback<MutableList<InfoItem>> {
         }
     }
 
-    override fun onResponse(call: Call<MutableList<InfoItem>>, response: Response<MutableList<InfoItem>>) {
+    override fun onResponse(call: Call<MutableList<InfoItemReception>>, response: Response<MutableList<InfoItemReception>>) {
 
         Log.d("appel", response.body().toString())
         val listItem = response.body()
@@ -83,15 +85,19 @@ class LoaderActivity : AppCompatActivity(), Callback<MutableList<InfoItem>> {
         // On charge les données de l'api en BD
         if (listItem != null) {
             for (item in listItem) {
-                dbHelper.insertData(item.name, item.description, item.adresse, item.latittude,item.longitude)
+
+                if(item.name !=null && item.description !=null && item.adresse !=null && item.latitude !=null && item.longitude !=null ){
+                    dbHelper.insertData(item.name, item.description, item.adresse, item.latitude,item.longitude)
+                }
             }
         }
         intent = Intent(this, ListeItemsActivity::class.java)
         startActivity(intent)
     }
 
-     override fun onFailure(call: Call<MutableList<InfoItem>>, t: Throwable) {
-
+     override fun onFailure(call: Call<MutableList<InfoItemReception>>, t: Throwable) {
+         Log.d("appel", "oups")
+         t.message?.let { Log.d("failtrack", it) }
          intent = Intent(this, NoNetworkActivity::class.java)
          startActivity(intent)
       }
