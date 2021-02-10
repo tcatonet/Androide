@@ -3,6 +3,7 @@ package RecyclerView
 
 import Modele.InfoItem
 import Modele.OnItemClickListener
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.TextView
@@ -22,14 +23,15 @@ class ItemViewHolder(inflater: LayoutInflater, parent: ViewGroup) :
     init {
         fullNameTextView=itemView.findViewById(R.id.fullNameTextView)
         adresseTextView=itemView.findViewById(R.id.adresseTextView)
-
     }
 
     // fait le lien entre un objet item et l'adapter
     //Affiche les éléments dans le fragement user_item
     fun bind(item: InfoItem, action: OnItemClickListener){
+
         fullNameTextView?.text = "${item.name}"
         adresseTextView?.text = " ${item.adresse}"
+        Log.d("adresse",item.adresse)
 
         itemView.setOnClickListener{
              action.onItemClick(item,adapterPosition)

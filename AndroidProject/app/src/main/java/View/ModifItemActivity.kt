@@ -60,7 +60,7 @@ class ModifItemActivity : AppCompatActivity() {
 
                         if (item.name.trim() == nameOrigin) {
                             if (adresse != null) {
-                                dbHelper.updateData(nameOrigin, name, description,adresse)
+                                dbHelper.updateData(nameOrigin, name, description)
                             }
                             break
                         }

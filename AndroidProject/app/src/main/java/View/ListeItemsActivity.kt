@@ -67,8 +67,8 @@ class ListeItemsActivity : AppCompatActivity(), OnItemClickListener {
         //On envoit les infos de l'item à ViewItemActivity
         val sharedPreference =getSharedPreferences("projet", MODE_PRIVATE)
         sharedPreference.edit().putString("name", item.name as String?).apply()
-        sharedPreference.edit().putString("description", item.description as String?).apply()
         sharedPreference.edit().putString("adresse", item.adresse as String?).apply()
+        sharedPreference.edit().putString("description", item.description as String?).apply()
         sharedPreference.edit().putString("longitude", item.longitude as String?).apply()
         sharedPreference.edit().putString("latitude", item.latitude as String?).apply()
 

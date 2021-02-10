@@ -186,7 +186,7 @@ class EditItemActivity : AppCompatActivity(), Callback<InfoItemReception> {
                                         if (isUnique) {
                                             if (adresse != "" && latitude != "" && longitude != "") {
 
-                                                dbHelper.insertData(name.trim(), adresse.trim(), description.trim(), latitude.trim(), longitude.trim())
+                                                dbHelper.insertData(name.trim(), description.trim(), adresse.trim(), latitude.trim(), longitude.trim())
                                                 API.addItem(this@EditItemActivity, name.trim(), description.trim(), latitude.trim(), longitude.trim(), adresse.trim())
 
                                                 Toast.makeText(this, "Item ajouté", Toast.LENGTH_SHORT).show()

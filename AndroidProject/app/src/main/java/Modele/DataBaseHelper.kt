@@ -17,7 +17,6 @@ class DataBaseHelper (context: Context) : SQLiteOpenHelper(context, DATABASE_NAM
 
     override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
         db?.execSQL("DROP TABLE IF EXISTS $TABLE_NAME")
-
     }
 
     //Ajoute un nouvel item dans la base de données
@@ -34,11 +33,11 @@ class DataBaseHelper (context: Context) : SQLiteOpenHelper(context, DATABASE_NAM
     }
 
     //Met a jour un item en fonction de son ancien nom, de son nouveau nom et de sa description
-    fun updateData(lastName:String,newName:String, descriptionVal: String,adresse: String){
+    fun updateData(lastName:String,newName:String, descriptionVal: String){
         val db = this.writableDatabase
         val contentValue = ContentValues()
         contentValue.put(COL_NAME, newName)
-        contentValue.put("description", adresse)
+        contentValue.put(COL_DESCRIPTION, descriptionVal)
 
         db.update(TABLE_NAME, contentValue,"NAME = ?", arrayOf(lastName))
     }
@@ -63,7 +62,7 @@ class DataBaseHelper (context: Context) : SQLiteOpenHelper(context, DATABASE_NAM
             var latitude= res.getString(res.getColumnIndex(COL_LATITUDE))
             var longitude= res.getString(res.getColumnIndex(COL_LONGITUDE))
 
-            itemList.add(InfoItem(name,description,adresse, latitude,longitude))
+            itemList.add(InfoItem(name,adresse,description, latitude,longitude))
             res.moveToNext()
         }
         return itemList
