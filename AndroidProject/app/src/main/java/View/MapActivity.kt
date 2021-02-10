@@ -68,7 +68,8 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback,
 
     private fun placeMarkerOnMap(location: LatLng) {
         val markerOptions = MarkerOptions().position(location)
-        val titleStr = getIntent().getStringExtra("adresse")
+        val sharedPreference =getSharedPreferences("projet", MODE_PRIVATE)
+        val titleStr = sharedPreference.getString("adresse",null)
 
         markerOptions.title(titleStr)
         map.addMarker(markerOptions)
@@ -113,9 +114,10 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback,
 
         map.uiSettings.isZoomControlsEnabled = true
         map.setOnMarkerClickListener(this)
+        val sharedPreference =getSharedPreferences("projet", MODE_PRIVATE)
 
-        val latitude = getIntent().getStringExtra("latitude").toString().toDouble()
-        val longitude = getIntent().getStringExtra("longitude").toString().toDouble()
+        val latitude = sharedPreference.getString("latitude",null).toString().toDouble()
+        val longitude = sharedPreference.getString("longitude",null).toString().toDouble()
 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
 

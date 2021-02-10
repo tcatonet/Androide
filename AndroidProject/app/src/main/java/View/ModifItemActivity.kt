@@ -18,19 +18,18 @@ class ModifItemActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_modif_item)
 
-        modifName.setText(getIntent().getStringExtra("name"))
-        modifDescription.setText(getIntent().getStringExtra("description"))
+        val sharedPreference =getSharedPreferences("projet", MODE_PRIVATE)
 
-        val nameOrigin = getIntent().getStringExtra("name")
-        val decriptionOrigin = getIntent().getStringExtra("description")
-        val adresse = getIntent().getStringExtra("adresse")
+        modifName.setText(sharedPreference.getString("name",null))
+        modifDescription.setText(sharedPreference.getString("description",null))
+
+        val nameOrigin = sharedPreference.getString("name",null)
+        val decriptionOrigin = sharedPreference.getString("description",null)
+        val adresse = sharedPreference.getString("adresse",null)
 
         //Click sur le bouton retour
         back?.setOnClickListener {
             val intent = Intent(this, ViewItemActivity::class.java)
-            intent.putExtra("name", nameOrigin)
-            intent.putExtra("description",decriptionOrigin)
-            intent.putExtra("adresse",adresse)
 
             startActivity(intent)
         }
@@ -45,7 +44,6 @@ class ModifItemActivity : AppCompatActivity() {
 
             val list_items = dbHelper.getAllItem()
             var isUnique = true
-            Toast.makeText(this, "name:" + name, Toast.LENGTH_SHORT).show()
 
             if( name.trim() != "") {
                 // Teste si le nom saisie à la modifiction de l'item est unique
@@ -61,15 +59,16 @@ class ModifItemActivity : AppCompatActivity() {
                     for (item in list_items) {
 
                         if (item.name.trim() == nameOrigin) {
-                            dbHelper.updateData(nameOrigin, name, description)
+                            if (adresse != null) {
+                                dbHelper.updateData(nameOrigin, name, description,adresse)
+                            }
                             break
                         }
                     }
                     Toast.makeText(this, "Item modifié", Toast.LENGTH_SHORT).show()
-                    intent.putExtra("name", modifName.getText().toString())
-                    intent.putExtra("description", modifDescription.getText().toString())
-                    intent.putExtra("adresse", adresse)
 
+                    sharedPreference.edit().putString("name",  modifName.getText().toString() as String?).apply()
+                    sharedPreference.edit().putString("description",modifDescription.getText().toString() as String?).apply()
                     startActivity(intent)
 
                 } else {

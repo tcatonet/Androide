@@ -34,11 +34,11 @@ class DataBaseHelper (context: Context) : SQLiteOpenHelper(context, DATABASE_NAM
     }
 
     //Met a jour un item en fonction de son ancien nom, de son nouveau nom et de sa description
-    fun updateData(lastName:String,newName:String, descriptionVal: String){
+    fun updateData(lastName:String,newName:String, descriptionVal: String,adresse: String){
         val db = this.writableDatabase
         val contentValue = ContentValues()
         contentValue.put(COL_NAME, newName)
-        contentValue.put(COL_DESCRIPTION, descriptionVal)
+        contentValue.put("description", adresse)
 
         db.update(TABLE_NAME, contentValue,"NAME = ?", arrayOf(lastName))
     }

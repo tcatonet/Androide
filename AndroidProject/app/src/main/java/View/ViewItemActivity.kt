@@ -92,24 +92,11 @@ class ViewItemActivity : AppCompatActivity(), Callback<InfoItemReceptionSupressi
 
         val sharedPreference =getSharedPreferences("projet", MODE_PRIVATE)
 
-        if(sharedPreference.getString("nom",null) != ""){
-
-            name.text = sharedPreference.getString("nom",null)
-            adresse.text = sharedPreference.getString("adresse",null)
-            description.text = sharedPreference.getString("description",null)
-            latitude = sharedPreference.getString("latitude",null).toString()
-            longitude = sharedPreference.getString("longitude",null).toString()
-
-            sharedPreference.edit().putString("nom", "" as String?).apply()
-
-        }else{
-
-            name.text = getIntent().getStringExtra("name")
-            adresse.text = getIntent().getStringExtra("adresse")
-            description.text = getIntent().getStringExtra("description")
-            latitude = getIntent().getStringExtra("latitude").toString()
-            longitude = getIntent().getStringExtra("longitude").toString()
-        }
+        name.text = sharedPreference.getString("name",null)
+        adresse.text = sharedPreference.getString("adresse",null)
+        description.text = sharedPreference.getString("description",null)
+        latitude = sharedPreference.getString("latitude",null).toString()
+        longitude = sharedPreference.getString("longitude",null).toString()
 
 
         //Click sur le bouton retour
@@ -121,8 +108,6 @@ class ViewItemActivity : AppCompatActivity(), Callback<InfoItemReceptionSupressi
         //Click sur le bouton éditer
         edit?.setOnClickListener {
             val intent = Intent(this, ModifItemActivity::class.java)
-            intent.putExtra("name", name.text)
-            intent.putExtra("description",description.text)
             startActivity(intent)
         }
 
@@ -169,13 +154,6 @@ class ViewItemActivity : AppCompatActivity(), Callback<InfoItemReceptionSupressi
 
         mapButton?.setOnClickListener {
             requestLocationUpdates()
-
-            val sharedPreference =getSharedPreferences("projet", MODE_PRIVATE)
-            sharedPreference.edit().putString("nom", name.text as String?).apply()
-            sharedPreference.edit().putString("description",adresse.text as String?).apply()
-            sharedPreference.edit().putString("adresse",description.text as String?).apply()
-            sharedPreference.edit().putString("longitude",latitude).apply()
-            sharedPreference.edit().putString("latitude",longitude).apply()
 
             val manager = getSystemService( LOCATION_SERVICE ) as LocationManager
 

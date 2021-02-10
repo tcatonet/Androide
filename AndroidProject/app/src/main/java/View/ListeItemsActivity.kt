@@ -27,8 +27,7 @@ class ListeItemsActivity : AppCompatActivity(), OnItemClickListener {
         //On charge la liste d'item à partie de la BD
         this.list_items = dbHelper.getAllItem()
 
-        val sharedPreference =getSharedPreferences("projet", MODE_PRIVATE)
-        sharedPreference.edit().putString("nom", "" as String?).apply()
+
 
 
         //Création de la vue
@@ -66,11 +65,14 @@ class ListeItemsActivity : AppCompatActivity(), OnItemClickListener {
         val intent = Intent(this, ViewItemActivity::class.java)
 
         //On envoit les infos de l'item à ViewItemActivity
-        intent.putExtra("name", item.name)
-        intent.putExtra("description", item.description)
-        intent.putExtra("adresse", item.adresse)
-        intent.putExtra("longitude", item.longitude)
-        intent.putExtra("latitude", item.latitude)
+        val sharedPreference =getSharedPreferences("projet", MODE_PRIVATE)
+        sharedPreference.edit().putString("name", item.name as String?).apply()
+        sharedPreference.edit().putString("description", item.description as String?).apply()
+        sharedPreference.edit().putString("adresse", item.adresse as String?).apply()
+        sharedPreference.edit().putString("longitude", item.longitude as String?).apply()
+        sharedPreference.edit().putString("latitude", item.latitude as String?).apply()
+
+
         startActivity(intent)
     }
 
