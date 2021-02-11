@@ -124,10 +124,6 @@ class EditItemActivity : AppCompatActivity(), Callback<InfoItemReception> {
 
             fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
 
-
-
-
-
             if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
 
                 val builder = AlertDialog.Builder(this)
@@ -187,12 +183,12 @@ class EditItemActivity : AppCompatActivity(), Callback<InfoItemReception> {
                                             if (adresse != "" && latitude != "" && longitude != "") {
 
                                                 dbHelper.insertData(name.trim(), description.trim(), adresse.trim(), latitude.trim(), longitude.trim())
+                                                startActivity(intent)
                                                 API.addItem(this@EditItemActivity, name.trim(), description.trim(), latitude.trim(), longitude.trim(), adresse.trim())
 
                                                 Toast.makeText(this, "Item ajouté", Toast.LENGTH_SHORT).show()
                                             } else {
                                                 Toast.makeText(this, "Impossible de trouver votre position", Toast.LENGTH_SHORT).show()
-                                                startActivity(intent)
                                             }
 
                                         } else {
@@ -202,6 +198,7 @@ class EditItemActivity : AppCompatActivity(), Callback<InfoItemReception> {
 
                                     } else {
                                         dbHelper.insertData(name.trim(), description.trim(), adresse.trim(), latitude.trim(), longitude.trim())
+                                        startActivity(intent)
                                         API.addItem(this@EditItemActivity, name.trim(), description.trim(), latitude.trim(), longitude.trim(), adresse.trim())
                                     }
                                 }else{
@@ -252,7 +249,7 @@ class EditItemActivity : AppCompatActivity(), Callback<InfoItemReception> {
     override fun onResponse(call: Call<InfoItemReception>, response: Response<InfoItemReception>) {
         Log.d("appel", "YES")
         val intent = Intent(this, ListeItemsActivity::class.java)
-        startActivity(intent)
+        //startActivity(intent)
 
     }
 
@@ -260,7 +257,7 @@ class EditItemActivity : AppCompatActivity(), Callback<InfoItemReception> {
         Log.d("appel", "error supr" +  t.message)
         t.message?.let { Log.d("failtrack", it) }
         val intent = Intent(this, ListeItemsActivity::class.java)
-        startActivity(intent)
+        //startActivity(intent)
     }
 }
 
