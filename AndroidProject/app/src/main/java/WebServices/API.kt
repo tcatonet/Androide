@@ -21,7 +21,7 @@ object API {
 
     }
 
-    // lance un appel
+    // lance un appel_
     fun retrieveItem(callback: LoaderActivity)
     {
         val call = nentworkIt?.retrieveItem()
